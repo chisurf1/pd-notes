@@ -1,0 +1,69 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Piano Practice</title><style>
+:root{--bg:#0f1220;--card:#181c30;--t:#e8e9f3;--m:#9aa0bd;--a:#f5b942;--g:#3ccf8e;--r:#e5566b;--b:#5b8cff}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--t)}
+.w{max-width:720px;margin:auto;padding:16px}
+.cta{display:block;text-align:center;background:linear-gradient(135deg,#f5b942,#f07b3f);color:#1a1205;font-weight:800;font-size:1.2rem;padding:18px;border-radius:16px;text-decoration:none;box-shadow:0 6px 20px #f5b94255}
+h1{font-size:1.4rem;margin:20px 0 4px}.sub{color:var(--m);margin:0 0 14px;font-size:.9rem}
+.card{background:var(--card);border-radius:16px;padding:16px;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.s{background:var(--card);border-radius:14px;padding:14px;text-align:center}.s b{display:block;font-size:2rem;color:var(--a)}.s span{color:var(--m);font-size:.8rem}
+h2{font-size:1rem;margin:0 0 10px;color:var(--m);text-transform:uppercase;letter-spacing:.05em}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.cal div{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;background:#23284a}
+.cal .h{background:none;color:var(--m);aspect-ratio:auto}.cal .p{background:var(--g);color:#06210f;font-weight:700}.cal .x{background:var(--r)}.cal .aw{background:var(--b)}.cal .td{outline:2px solid var(--a)}.cal .e{background:none}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.nav button{background:#23284a;color:var(--t);border:0;border-radius:8px;padding:6px 12px;font-size:1rem}
+.leg{display:flex;gap:12px;font-size:.75rem;color:var(--m);margin-top:8px;flex-wrap:wrap}.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
+.cd{font-size:1.6rem;font-weight:800;color:var(--a)}ul{padding-left:18px;margin:6px 0}li{margin:4px 0}.past{color:var(--m);text-decoration:line-through}
+.tip{font-size:1.05rem;line-height:1.5}.tag{display:inline-block;background:#2c3360;border-radius:99px;padding:2px 10px;font-size:.75rem;margin-bottom:6px}
+a{color:var(--a)}.foot{color:var(--m);font-size:.75rem;text-align:center;margin:20px 0}
+</style></head><body><div class="w">
+<a class="cta" href="https://contemporary-school-of-piano.circle.so" target="_blank" rel="noopener">🎹 Open Course Material</a>
+<h1>Douglas's Piano Practice</h1><p class="sub">Complete Musician Course · London Contemporary School of Piano · goal <span id="goal"></span> min/day</p>
+<div class="card" id="today"></div>
+<div class="stats"><div class="s"><b id="cs"></b><span>Current streak</span></div><div class="s"><b id="bs"></b><span>Best streak</span></div><div class="s"><b id="td"></b><span>Days practiced</span></div><div class="s"><b id="tm"></b><span>Total minutes</span></div></div>
+<div class="card"><div class="nav"><button id="pv">‹</button><h2 id="mt" style="margin:0"></h2><button id="nx">›</button></div><div class="cal" id="cal"></div>
+<div class="leg"><span><i style="background:var(--g)"></i>Practiced</span><span><i style="background:var(--r)"></i>Missed</span><span><i style="background:var(--b)"></i>Away</span></div></div>
+<div class="card"><h2>Next live broadcast</h2><div id="nb"></div><div class="cd" id="cd"></div><ul id="ses"></ul><p class="sub">Mondays 8:00 PM London time. Recordings and new modules appear in the Learn space afterward. Dates after Oct 12 are estimated from the previous edition (9 × 75 min).</p></div>
+<div class="card"><h2>Today's practice tip</h2><div id="tip"></div></div>
+<div class="card"><h2>Feedback</h2><p style="margin:0">DM coaches <b>Maria Palazian</b> or <b>Rosanna Spain</b> in the portal (message icon, top right) with a video/audio clip. Help: <a href="mailto:yuliya@contemporaryschoolofpiano.com">yuliya@contemporaryschoolofpiano.com</a></p></div>
+<p class="foot" id="ft"></p></div>
+<script>
+const D={"goal_minutes_per_day": 20, "started": "2026-10-07", "current_streak": 1, "best_streak": 2, "last_practice_date": "2026-10-12", "days": {"2026-10-08": {"practiced": true, "minutes": 20, "note": "20+ min"}, "2026-10-09": {"practiced": true, "minutes": 20, "note": "20+ min"}, "2026-10-10": {"practiced": false, "minutes": 0, "note": "out of town"}, "2026-10-12": {"practiced": true, "minutes": 20, "note": "20+ min"}}, "away": {"from": "2026-10-13", "to": "2026-10-15", "note": "Florida trip, no piano; resume Fri Oct 16. Streak resets to 0 at the restart."}};
+const tz='America/Detroit',fmt=d=>new Intl.DateTimeFormat('en-CA',{timeZone:tz}).format(d);
+const today=fmt(new Date());
+const away=d=>D.away&&d>=D.away.from&&d<=D.away.to;
+const days=D.days||{};let tdays=0,tmin=0;for(const k in days){if(days[k].practiced){tdays++}tmin+=days[k].minutes||0}
+goal.textContent=D.goal_minutes_per_day;cs.textContent=D.current_streak;bs.textContent=D.best_streak;td.textContent=tdays;tm.textContent=tmin;
+let st;const t=days[today];
+if(away(today))st=`✈️ <b>Away</b> — ${D.away.note||''}`;else if(t&&t.practiced)st=`✅ <b>Done today!</b> ${t.minutes} min logged. Streak: ${D.current_streak}.`;
+else st=`⏳ <b>Not yet today.</b> ${D.goal_minutes_per_day} minutes ${D.current_streak?`grows your streak to ${D.current_streak+1}`:'starts a new streak'} — best to beat: ${D.best_streak}.`;
+document.getElementById('today').innerHTML='<h2>Today · '+new Date().toLocaleDateString('en-US',{timeZone:tz,weekday:'long',month:'short',day:'numeric'})+'</h2>'+st;
+let [cy,cm]=today.split('-').map(Number);cm--;
+function draw(){const first=new Date(cy,cm,1),n=new Date(cy,cm+1,0).getDate();mt.textContent=first.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+let h='SMTWTFS'.split('').map(x=>`<div class="h">${x}</div>`).join('');for(let i=0;i<first.getDay();i++)h+='<div class="e"></div>';
+for(let d=1;d<=n;d++){const k=`${cy}-${String(cm+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,e=days[k];let c='';
+if(e&&e.practiced)c='p';else if(away(k)||(e&&/out of town|away/i.test(e.note||'')))c='aw';else if(k<today&&k>=(D.started||'')&&!(e&&e.practiced))c='x';
+if(k===today)c+=' td';h+=`<div class="${c}" title="${e?e.minutes+' min '+(e.note||''):''}">${d}</div>`}cal.innerHTML=h}
+pv.onclick=()=>{if(--cm<0){cm=11;cy--}draw()};nx.onclick=()=>{if(++cm>11){cm=0;cy++}draw()};draw();
+const S=['2026-10-05','2026-10-12','2026-10-19','2026-10-26','2026-11-02','2026-11-09','2026-11-16','2026-11-23','2026-11-30'].map(d=>{
+// 20:00 London: BST(UTC+1) until Oct 25, then GMT
+const u=d<'2026-10-25'?'19:00':'20:00';return new Date(d+'T'+u+':00Z')});
+const et=x=>x.toLocaleString('en-US',{timeZone:tz,weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' ET';
+ses.innerHTML=S.map((x,i)=>`<li class="${x.getTime()+75*6e4<Date.now()?'past':''}">Session ${i+1}: ${et(x)}</li>`).join('');
+function tick(){const now=Date.now(),nx=S.find(x=>x.getTime()+75*6e4>now);if(!nx){nb.textContent='Course broadcasts complete 🎉';cd.textContent='';return}
+nb.textContent=et(nx);const ms=nx-now;if(ms<=0){cd.textContent='🔴 Live now!';return}
+const d=Math.floor(ms/864e5),h=Math.floor(ms/36e5)%24,m=Math.floor(ms/6e4)%60,s=Math.floor(ms/1e3)%60;cd.textContent=`${d}d ${h}h ${m}m ${s}s`}
+tick();setInterval(tick,1000);
+const T=[['Chords','Pick one chord from this week\'s module and play it in all 12 keys, slowly. Say the chord name out loud as you go.'],
+['Groove','Loop a 4-chord progression with a steady left-hand pattern for 5 minutes. Change only the rhythm each time through.'],
+['Improvisation','Over a simple left-hand groove, improvise with your right hand using just 3 notes. Limits spark creativity.'],
+['Chords','Practice inversions: move one chord through root, 1st and 2nd inversion and find the smoothest path to the next chord.'],
+['Groove','Set a metronome on beats 2 and 4 only and play your progression. Feel the backbeat in your body.'],
+['Improvisation','Play a short phrase, then leave the same amount of silence. Call and response makes solos breathe.'],
+['Chords','Add a 7th to every chord in your progression and listen to how the colour changes.'],
+['Groove','Try the same progression as a ballad, then a bossa, then a pop eighth-note feel.'],
+['Improvisation','Record 2 minutes of free improvisation on your phone and send the best bit to Maria or Rosanna for feedback.'],
+['Chords','Voice-lead with the top note: keep the melody note of each chord moving by step or staying still.']];
+const di=Math.floor(new Date(today)/864e5)%T.length,[tg,tx]=T[di];tip.innerHTML=`<span class="tag">${tg}</span><div class="tip">${tx}</div>`;
+ft.textContent='Last practice: '+(D.last_practice_date||'—')+' · Data refreshed daily from practice log';
+</script></body></html>

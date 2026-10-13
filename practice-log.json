@@ -1,0 +1,34 @@
+{
+ "goal_minutes_per_day": 20,
+ "started": "2026-10-07",
+ "current_streak": 1,
+ "best_streak": 2,
+ "last_practice_date": "2026-10-12",
+ "days": {
+  "2026-10-08": {
+   "practiced": true,
+   "minutes": 20,
+   "note": "20+ min"
+  },
+  "2026-10-09": {
+   "practiced": true,
+   "minutes": 20,
+   "note": "20+ min"
+  },
+  "2026-10-10": {
+   "practiced": false,
+   "minutes": 0,
+   "note": "out of town"
+  },
+  "2026-10-12": {
+   "practiced": true,
+   "minutes": 20,
+   "note": "20+ min"
+  }
+ },
+ "away": {
+  "from": "2026-10-13",
+  "to": "2026-10-15",
+  "note": "Florida trip, no piano; resume Fri Oct 16. Streak resets to 0 at the restart."
+ }
+}
