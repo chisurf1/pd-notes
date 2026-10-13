@@ -1,6 +1,6 @@
 {
  "goal_minutes_per_day": 20,
- "started": "2026-10-07",
+ "started": "2026-10-08",
  "current_streak": 1,
  "best_streak": 2,
  "last_practice_date": "2026-10-12",
@@ -24,6 +24,11 @@
    "practiced": true,
    "minutes": 20,
    "note": "20+ min"
+  },
+  "2026-10-11": {
+   "practiced": false,
+   "minutes": 0,
+   "note": "missed (just back from trip)"
   }
  },
  "away": {
