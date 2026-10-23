@@ -1,9 +1,9 @@
 {
  "goal_minutes_per_day": 20,
  "started": "2026-10-08",
- "current_streak": 2,
- "best_streak": 2,
- "last_practice_date": "2026-10-22",
+ "current_streak": 3,
+ "best_streak": 3,
+ "last_practice_date": "2026-10-23",
  "days": {
   "2026-10-08": {
    "practiced": true,
@@ -59,6 +59,10 @@
    "minutes": 20
   },
   "2026-10-22": {
+   "practiced": true,
+   "minutes": 20
+  },
+  "2026-10-23": {
    "practiced": true,
    "minutes": 20
   }
